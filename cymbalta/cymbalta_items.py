@@ -13,7 +13,7 @@ class CymbaltaItem(scrapy.Item):
     date = scrapy.Field()
     reviewer = scrapy.Field()
     condition = scrapy.Field()
-    effective = scrappy.Field()
+    effective = scrapy.Field()
     ease = scrapy.Field()
     satisfaction = scrapy.Field()
     comment = scrapy.Field()
