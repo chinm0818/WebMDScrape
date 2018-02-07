@@ -19,7 +19,11 @@ class cymbalta_spider(Spider):
 	def parse_detail(self, response):
 		#for each cat, scrapes 5 inputs at a time for the current page
 
-		reviews = response.xpath()
+		reviews = response.xpath('//div[@id = "ratings_fmt"]').extract() #list of one long html string
+
+		reviews = reviews[0].split('/n')
+
+
 		for review in reviews:
 
 		#dates = response.xpath('//div[@class = "date"]/text()').extract() # saves a list of dates 
