@@ -19,7 +19,7 @@ class WriteItemPipeline(object):
 		self.filename = 'cymbalta.csv'
 
 	def open_spider(self, spider):
-		self.csvfile = open(self.filename, 'w')
+		self.csvfile = open(self.filename, 'wb')
 		self.exporter = CsvItemExporter(self.csvfile)
 		self.exporter.start_exporting()
 

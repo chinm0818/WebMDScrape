@@ -17,14 +17,39 @@ class cymbalta_spider(Spider):
 			yield Request(url, callback = self.parse_detail)
 
 	def parse_detail(self, response):
-		#for each cat, scrapes 5 inputs at a time for the current page
 
-		reviews = response.xpath('//div[@id = "ratings_fmt"]').extract() #list of one long html string
+		for x, y in zip(range(4,9), range(1,6)): #5 reviews per page. 
+			
+			review = '//*[@id="ratings_fmt"]/div[{}]'.format(x) #setting up tags for each of the 5
 
-		reviews = reviews[0].split('/n')
+			reviewer = review + '//p[@class="reviewerInfo"]/text()'#pulling out relevant data from each review
+			condition = review + '//div[1]/div[1]/text()'
+			date = review + '//div[1]/div[2]/text()'
+			effective = review + '//*[@id="ctnStars"]/div[1]/p[2]/span/text()'
+			ease = review + '//*[@id="ctnStars"]/div[2]/p[2]/span/text()'
+			satisfaction = review + '//*[@id="ctnStars"]/div[3]/p[2]/span/text()'
+			comment = review + '//*[@id="comTrunc{}"]/text()'.format(y)
+
+			item = CymbaltaItem()
+
+			item['reviewer'] = response.xpath(reviewer).extract_first()
+			item['condition'] = response.xpath(condition).extract_first()
+			item['date'] = response.xpath(date).extract_first()
+			item['effective'] = response.xpath(effective).extract_first()
+			item['ease'] = response.xpath(ease).extract_first()
+			item['satisfaction'] = response.xpath(satisfaction).extract_first()
+			item['comment'] = response.xpath(comment).extract_first()
+
+			yield item
 
 
-		for review in reviews:
+
+		
+
+		
+
+
+		
 
 		#dates = response.xpath('//div[@class = "date"]/text()').extract() # saves a list of dates 
 		#reviewers = response.xpath('//p[@class = "reviewerInfo"]/text()').extract() # saves a list of reviewrs
