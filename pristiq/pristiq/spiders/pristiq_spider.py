@@ -1,17 +1,17 @@
 # Import required packages 
 from scrapy import Spider, Request
-from cymbalta.cymbalta_items import CymbaltaItem
+from pristiq.pristiq_items import PristiqItem
 
 
 #Set up spider class
-class cymbalta_spider(Spider):
-	name = "cymbalta_spider"
+class pristiq_spider(Spider):
+	name = "pristiq_spider"
 	allowed_urls = ["https://www.webmd.com/"]
 	start_urls = ["https://www.webmd.com/drugs/2/index"]
 # just have to do one parse layer. first parse func cycles through reviews in groups of 5
 	def parse(self, response):
-		link = "https://www.webmd.com/drugs/drugreview-91491-Cymbalta+oral.aspx?drugid=91491&drugname=Cymbalta+oral&pageIndex={}&sortby=3&conditionFilter=-1" 
-		links = [link.format(n) for n in range(917)] # change range to 917 for full run
+		link = "https://www.webmd.com/drugs/drugreview-150251-Pristiq+oral.aspx?drugid=150251&drugname=Pristiq+oral&pageIndex={}&sortby=3&conditionFilter=-1" 
+		links = [link.format(n) for n in range(280)] # change range 280 for full run
 
 		for url in links:
 			yield Request(url, callback = self.parse_detail)
@@ -30,7 +30,7 @@ class cymbalta_spider(Spider):
 			satisfaction = review + '//*[@id="ctnStars"]/div[3]/p[2]/span/text()'
 			comment = review + '//*[@id="comTrunc{}"]/text()'.format(y)
 
-			item = CymbaltaItem()
+			item = PristiqItem()
 
 			item['reviewer'] = response.xpath(reviewer).extract_first()
 			item['condition'] = response.xpath(condition).extract_first()
